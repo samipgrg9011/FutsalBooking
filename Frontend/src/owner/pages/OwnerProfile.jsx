@@ -5,8 +5,7 @@ import { updateUser } from "../../features/user/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-
-const UserProfile = () => {
+const OwnerProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -67,7 +66,7 @@ const UserProfile = () => {
       );
       toast.success(res.data.msg);
       dispatch(updateUser({ ...formData }));
-      setIsEditing(false); // Exit edit mode after successful update
+      setIsEditing(false);
     } catch (err) {
       console.error(err);
       const errorMsg = err.response?.data?.error;
@@ -104,7 +103,6 @@ const UserProfile = () => {
   };
 
   const handleCancel = () => {
-    // Reset form data to original user data
     setFormData({
       FirstName: user.FirstName || "",
       LastName: user.LastName || "",
@@ -115,18 +113,29 @@ const UserProfile = () => {
     setIsEditing(false);
   };
 
-  if (!user) return <div className="flex justify-center items-center min-h-screen">Loading profile...</div>;
+  if (!user) return <div className="flex justify-center items-center min-h-screen text-gray-700">Loading profile...</div>;
+
+  const defaultImage = "https://via.placeholder.com/150?text=No+Image+Available";
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="max-w-7xl mx-auto px-6 py-8 min-h-screen bg-gray-100">
+      {/* Profile Heading */}
+      <header className="mb-10">
+        <h1 className="text-4xl font-bold text-gray-900">
+          My Profile
+        </h1>
+        <p className="mt-2 text-gray-600">Manage your account details and preferences</p>
+      </header>
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Profile Card */}
-        <div className="lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
+        <div className="lg:w-1/3 bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <div className="text-center">
             <div className="relative mx-auto w-32 h-32 mb-4">
               <img
-                src={`http://localhost:8000/${user.profileImage}`}
-                className="w-full h-full object-cover rounded-full border-4 border-gray-200"
+                src={user.profileImage ? `http://localhost:8000/${user.profileImage}` : defaultImage}
+                alt={user.profileImage ? `${formData.FirstName}'s Profile` : "No Image Available"}
+                className="w-full h-full object-cover rounded-full "
+                onError={(e) => (e.target.src = defaultImage)}
               />
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
@@ -136,12 +145,12 @@ const UserProfile = () => {
               <input
                 type="file"
                 onChange={(e) => setImage(e.target.files[0])}
-                className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-teal-50 file:text-teal-600 hover:file:bg-teal-100"
               />
               <button
                 onClick={handleImageUpload}
                 disabled={!image}
-                className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                className="w-full py-2 px-4 bg-gray-700 text-white rounded-md hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
               >
                 Upload Image
               </button>
@@ -150,13 +159,13 @@ const UserProfile = () => {
         </div>
 
         {/* Form Card */}
-        <div className="lg:w-2/3 bg-white rounded-lg shadow-lg p-6">
+        <div className="lg:w-2/3 bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-800">Account Settings</h2>
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800 transition-colors"
               >
                 Edit Profile
               </button>
@@ -173,8 +182,8 @@ const UserProfile = () => {
                   value={formData.FirstName}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className={`w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                  className={`w-full p-3 border border-gray-200 rounded-md${
+                    !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
                   }`}
                 />
               </div>
@@ -186,8 +195,8 @@ const UserProfile = () => {
                   value={formData.LastName}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className={`w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                  className={`w-full p-3 border border-gray-200 rounded-md${
+                    !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
                   }`}
                 />
               </div>
@@ -202,8 +211,8 @@ const UserProfile = () => {
                   value={formData.Email}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className={`w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                  className={`w-full p-3 border border-gray-200 rounded-md${
+                    !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
                   }`}
                 />
               </div>
@@ -215,8 +224,8 @@ const UserProfile = () => {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className={`w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+                  className={`w-full p-3 border border-gray-200 rounded-md${
+                    !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
                   }`}
                 />
               </div>
@@ -231,7 +240,7 @@ const UserProfile = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter new password"
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-200 rounded-mdbg-white"
                 />
               </div>
             )}
@@ -240,7 +249,7 @@ const UserProfile = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto px-6 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 transition-colors"
                 >
                   Save Changes
                 </button>
@@ -261,4 +270,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default OwnerProfile;

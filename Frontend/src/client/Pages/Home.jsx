@@ -40,7 +40,8 @@ const Home = () => {
             futsals.map((futsal) => (
               <div
                 key={futsal._id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+                className="bg-white rounded-2xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
+
               >
                 {/* Image Section */}
                 <div className="w-full h-64 bg-gray-200 flex items-center justify-center relative">
@@ -53,7 +54,7 @@ const Home = () => {
                   ) : (
                     <span className="text-gray-400 text-sm">No Image Available</span>
                   )}
-                  <span className="absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-lg">
+                  <span className="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-semibold px-3 py-1 rounded-lg">
                     Rs{futsal.pricePerHour || "1000"}/hr
                   </span>
                 </div>
@@ -84,13 +85,16 @@ const Home = () => {
                   {/* Booking Buttons */}
                   <div className="flex justify-between mt-4">
                     <button
-                      className="text-green-600 font-semibold hover:underline"
+                    className="text-emerald-600 font-semibold hover:text-emerald-700"
+
                       onClick={() => navigate(`/futsal/${futsal._id}`)}
                     >
                       View Details
                     </button>
                     <button
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+                      
+                      
                       onClick={() => navigate(`/book/${futsal._id}`)}
                     >
                       Book Now

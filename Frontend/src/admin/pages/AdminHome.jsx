@@ -5,8 +5,10 @@ import AdminDashboard from '../components/AdminDashboard';
 import AdminFutsal from './AdminFutsal';
 // import ManageOwner from './ManageOwner';
 import ManageFutsal from './ManageFutsal';
-import LoggedUsers from './LoggedUser';
-import AllBooking from '../../owner/pages/AllBooking';
+import Reviews from './Reviews';
+import Bookings from './Bookings';
+import AllUsersForAdmin from './AllUser';
+import AllPayment from './AllPayment';
 
 
 const AdminHome = () => {
@@ -21,12 +23,11 @@ const AdminHome = () => {
                 <Routes>
                     <Route path="/" element={<AdminDashboard/>} />
                     <Route path="/product" element={<AdminFutsal />} />
-                    {/* <Route path="/owners" element={<ManageOwner />} /> */}
                     <Route path="/arenas" element={<ManageFutsal />} />
-                    <Route path="/users" element={<LoggedUsers />} />
-                    <Route path="/bookings" element={<AllBooking />} />
-
-
+                    <Route path="/users" element={<AllUsersForAdmin/>} />
+                    <Route path="/bookings" element={<Bookings />} />
+                    <Route path="/reviews" element={<Reviews />} />
+                    <Route path="/payments" element={<AllPayment />} />
                 </Routes>
             </div>
         </div>

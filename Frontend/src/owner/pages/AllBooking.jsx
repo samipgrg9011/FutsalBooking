@@ -46,45 +46,48 @@ const AllBooking = () => {
       alert("Failed to delete booking");
     }
   };
-
   return (
-    <div className="p-6 lg:ml-auto bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">All Bookings</h1>
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">All Bookings</h2>
 
-      <div className="bg-white shadow-lg rounded-lg p-4 overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-700 text-white">
-              <th className="px-6 py-3 text-left">Booking ID</th>
-              <th className="px-6 py-3 text-left">Futsal Arena</th>
-              <th className="px-6 py-3 text-left">User</th>
-              <th className="px-6 py-3 text-left">Booking Date</th>
-              <th className="px-6 py-3 text-left">Start Time</th>
-              <th className="px-6 py-3 text-left">End Time</th>
-              <th className="px-6 py-3 text-left">Total Amount</th>
-              <th className="px-6 py-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.length === 0 ? (
+      {bookings.length === 0 ? (
+        <div className="text-center py-10 text-gray-500">
+          No bookings found
+        </div>
+      ) : (
+        <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100">
               <tr>
-                <td colSpan="8" className="text-center py-6 text-gray-600">
-                  No bookings found
-                </td>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Futsal Arena</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Time</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Time</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
-            ) : (
-              bookings.map((booking) => (
-                <tr key={booking._id} className="border-b hover:bg-gray-100 text-gray-800">
-                  <td className="px-6 py-3">{booking._id}</td>
-                  <td className="px-6 py-3">{booking.futsalArena ? booking.futsalArena.name : "N/A"}</td>
-                  <td className="px-6 py-3">
-                    {booking.user ? `${booking.user.FirstName} ${booking.user.LastName}` : "N/A"}
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {bookings.map((booking) => (
+                <tr key={booking._id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{booking._id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {booking.futsalArena ? booking.futsalArena.name : "N/A"}
                   </td>
-                  <td className="px-6 py-3">{new Date(booking.bookingDate).toLocaleDateString()}</td>
-                  <td className="px-6 py-3">{booking.startTime}</td>
-                  <td className="px-6 py-3">{booking.endTime}</td>
-                  <td className="px-6 py-3">{booking.totalAmount}</td>
-                  <td className="px-6 py-3 text-center">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">
+                      {booking.user ? `${booking.user.FirstName} ${booking.user.LastName}` : "N/A"}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(booking.bookingDate).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{booking.startTime}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{booking.endTime}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₨{booking.totalAmount}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button
                       className="text-red-600 hover:text-red-800 p-2"
                       onClick={() => deleteBooking(booking._id)}
@@ -93,11 +96,11 @@ const AllBooking = () => {
                     </button>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

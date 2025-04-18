@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Review = ({ reviews, setReviews, futsalId, setError, onReviewAdded }) => {
   const [newComment, setNewComment] = React.useState("");
-  const [newRating, setNewRating] = React.useState(1);
+  const [newRating, setNewRating] = React.useState("");
 
   // Fetch reviews for the futsal whenever futsalId changes
   useEffect(() => {

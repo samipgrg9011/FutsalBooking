@@ -53,7 +53,7 @@ const ManageFutsal = () => {
               <th className="py-3 px-4 text-left">Owner</th>
               <th className="py-3 px-4 text-left">Price Per Hour</th>
               <th className="py-3 px-4 text-left">Location</th>
-              <th className="py-3 px-4 text-left">Images</th>
+              <th className="py-3 px-4 text-left">Image</th>
               <th className="py-3 px-4 text-left">Actions</th>
             </tr>
           </thead>
@@ -70,25 +70,13 @@ const ManageFutsal = () => {
                 <td className="py-3 px-4">{futsal.location}</td>
                 <td className="py-3 px-4">
                   {futsal.images && futsal.images.length > 0 ? (
-                    <div className="flex gap-2">
-                     {futsal.images.map((image, index) => {
-                        const imageUrl = `http://localhost:8000/${image}`;
-                        
-                        // Log the image URL to the console for debugging
-                        console.log(`Image URL for ${futsal.name} (${index + 1}): ${imageUrl}`);
-                        
-                        return (
-                          <img
-                            key={index}
-                            src={imageUrl} // Path to your image folder
-                            alt={`Futsal ${futsal.name} Image ${index + 1}`}
-                            className="w-16 h-16 object-cover rounded-md shadow-md"
-                          />
-                        );
-                      })}
-                    </div>
+                    <img
+                      src={`http://localhost:8000/${futsal.images[0]}`} // Use only the first image
+                      alt={`Futsal ${futsal.name}`}
+                      className="w-16 h-16 object-cover rounded-md shadow-md"
+                    />
                   ) : (
-                    <span>No images available</span>
+                    <span>No image available</span>
                   )}
                 </td>
                 <td className="py-3 px-4">

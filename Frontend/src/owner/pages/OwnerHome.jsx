@@ -4,6 +4,9 @@ import OwnerDashboard from '../components/OwnerDashboard'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import OwnerFutsal from './OwnerFutsal';
 import AllBooking from './AllBooking';
+import ArenaReview from './ArenaReview';
+import PaymentArena from './PaymentArena';
+import OwnerProfile from './OwnerProfile';
 
 
 const OwnerHome = () => {
@@ -19,7 +22,9 @@ const OwnerHome = () => {
                     <Route path="/" element={<OwnerDashboard />} />
                     <Route path="/futsal" element={< OwnerFutsal/>} />
                     <Route path="/bookings" element={< AllBooking/>} />
-
+                    <Route path="/reviews" element={< ArenaReview/>} />
+                    <Route path="/payments" element={< PaymentArena/>} />
+                    <Route path="/profile" element={< OwnerProfile/>} />
 
                 </Routes>
             </div>
