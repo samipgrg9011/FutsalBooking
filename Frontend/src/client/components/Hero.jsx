@@ -32,14 +32,14 @@
 // components/Hero.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import myimage from "../../image/futsal-one.avif"; // Adjust the path based on your folder structure
+import myimage from "../../image/bg3.avif"; // Adjust the path based on your folder structure
 
 const Hero = () => {
   const navigate = useNavigate();
 
   return (
     <div
-      className="relative w-full h-[550px] bg-cover bg-center" // Full-screen height with image covering the section
+      className="relative w-full h-[450px] bg-cover bg-center" // Full-screen height with image covering the section
       style={{ backgroundImage: `url(${myimage})` }}
     >
 

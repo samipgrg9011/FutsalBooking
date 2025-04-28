@@ -37,7 +37,7 @@ const FindFutsalCourts = () => {
   }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto max-w-screen-xl px-3 lg:px-6 py-6">
         {/* Header */}
         <h1 className="text-3xl font-bold text-gray-900 mb-6">
@@ -137,7 +137,6 @@ const FindFutsalCourts = () => {
                   onChange={(e) => setSortByPrice(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <option value="relevance">Relevance</option>
                   <option value="asc">Price: Low to High</option>
                   <option value="desc">Price: High to Low</option>
                 </select>

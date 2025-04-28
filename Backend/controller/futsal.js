@@ -5,113 +5,6 @@ const Review = require("../model/review"); // Adjust path to your Review model
 
 
 
-// // Get All Futsals with Filtering, Pagination
-// const getFutsals = async (req, res, next) => {
-//   //   console.log(req.query);
-  
-//   //   let searchTerm = req.query.searchTerm || "";
-//   //   let priceFrom = parseFloat(req.query.priceFrom) || 0;
-//   //   let priceTo = parseFloat(req.query.priceTo) || Number.MAX_VALUE;
-//   //   let pageSize = parseInt(req.query.pageSize) || 10;
-//   //   let page = parseInt(req.query.page) || 1;
-  
-//   //   try {
-//   //     let filterOptions = {
-//   //       $and: [
-//   //         { pricePerHour: { $gte: priceFrom, $lte: priceTo } },
-//   //         { name: new RegExp(searchTerm, "i") },
-//   //       ],
-//   //     };
-  
-//   //     let total = await Futsal.countDocuments(filterOptions);
-  
-//   //     let futsals = await Futsal.find(filterOptions)
-//   //       .populate("createdBy", "name email")
-//   //       .skip((page - 1) * pageSize)
-//   //       .limit(pageSize);
-  
-//   //     res.status(200).send({ total, futsals });
-//   //   } catch (err) {
-//   //     next(err);
-//   //   }
-//   // };
-//   console.log(req.query);
-  
-//   let searchTerm = req.query.searchTerm || "";
-//   let location = req.query.location || "";
-//   let sortByPrice = req.query.sortByPrice || "asc"; // Default sorting by price in ascending order
-//   let priceFrom = parseFloat(req.query.priceFrom) || 0;
-//   let priceTo = parseFloat(req.query.priceTo) || Number.MAX_VALUE;
-  
-//   // Determine the sorting order based on the query parameter
-//   let sortOrder = sortByPrice === "desc" ? -1 : 1; // "desc" means descending, otherwise ascending
-  
-//   try {
-//     let filterOptions = {
-//       $and: [
-//         { name: new RegExp(searchTerm, "i") }, // Case-insensitive name search
-//         { pricePerHour: { $gte: priceFrom, $lte: priceTo } }, // Filtering within price range
-//       ],
-//     };
-  
-//     // Add location filter if it exists
-//     if (location) {
-//       filterOptions.$and.push({ location: new RegExp(location, "i") }); // Case-insensitive location search
-//     }
-  
-//     // Find futsals with the filter options and sort by price
-//     let futsals = await Futsal.find(filterOptions)
-//       .populate("createdBy", "name email") // Populating the createdBy field
-//       .sort({ pricePerHour: sortOrder }) // Sorting by price, either ascending (1) or descending (-1)
-//       .exec(); // Execute the query
-  
-//     res.status(200).send({ total: futsals.length, futsals }); // Return the results
-//   } catch (err) {
-//     next(err); // Handle any errors
-//   }
-//   }
-
-// Get All Futsals with Filtering, Pagination
-
-// const getFutsals = async (req, res, next) => {
-// console.log(req.query);
-// let searchTerm = req.query.searchTerm || "";
-// let location = req.query.location || "";
-// let sortByPrice = req.query.sortByPrice || "asc"; // Default sorting by price in ascending order
-// let priceFrom = parseFloat(req.query.priceFrom) || 0;
-// let priceTo = parseFloat(req.query.priceTo) || Number.MAX_VALUE;
-
-// // Determine the sorting order based on the query parameter
-// let sortOrder = sortByPrice === "desc" ? -1 : 1; // "desc" means descending, otherwise ascending
-
-// try {
-//   let filterOptions = {
-//     $and: [
-//       { name: new RegExp(searchTerm, "i") }, // Case-insensitive name search
-//       { pricePerHour: { $gte: priceFrom, $lte: priceTo } }, // Filtering within price range
-//     ],
-//   };
-
-//   // Add location filter if it exists
-//   if (location) {
-//     filterOptions.$and.push({ location: new RegExp(location, "i") }); // Case-insensitive location search
-//   }
-
-//   // Find futsals with the filter options and sort by price
-//   let futsals = await Futsal.find(filterOptions)
-//     .populate("createdBy", "name email") // Populating the createdBy field
-//     .sort({ pricePerHour: sortOrder }) // Sorting by price, either ascending (1) or descending (-1)
-//     .exec(); // Execute the query
-
-    
-
-//   res.status(200).send({ total: futsals.length, futsals }); // Return the results
-// } catch (err) {
-//   next(err); // Handle any errors
-// }
-// }
-
-
 const getFutsals = async (req, res, next) => {
   console.log(req.query);
   let searchTerm = req.query.searchTerm || "";
@@ -135,7 +28,7 @@ const getFutsals = async (req, res, next) => {
     }
 
     let futsals = await Futsal.find(filterOptions)
-      .populate("createdBy", "name email")
+      .populate("createdBy", "name Email, PhoneNumber")
       .sort({ pricePerHour: sortOrder })
       .lean(); // Use .lean() for plain JS objects
 
@@ -159,22 +52,45 @@ const getFutsals = async (req, res, next) => {
 
 // const getSingleFutsal = async (req, res) => {
 //   try {
+//     // Fetch the futsal by ID
 //     let futsal = await Futsal.findById(req.params.id);
+    
 //     if (!futsal) {
 //       return res.status(404).json({ message: "Futsal not found" });
 //     }
+
+//     // Fetch all reviews for this futsal
+//     const reviews = await Review.find({ futsal: req.params.id });
+
+//     // Calculate average rating
+//     let avgRating = null;
+//     if (reviews.length > 0) {
+//       const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+//       avgRating = Number((totalRating / reviews.length).toFixed(1)); // Round to 1 decimal place
+//     }
+
+//     // Convert futsal to plain object and add avgRating
+//     futsal = futsal.toObject(); // Convert Mongoose document to plain JS object
+//     futsal.avgRating = avgRating || "No ratings"; // Add avgRating to response
+//     futsal.reviewCount = reviews.length; // Optionally add review count
+
+//     // Send response
 //     res.status(200).json(futsal);
 //   } catch (error) {
 //     console.error(error);
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
- // Adjust path to your Futsal model
+
+
+// Store a New Futsal with Multiple Images
 
 const getSingleFutsal = async (req, res) => {
   try {
-    // Fetch the futsal by ID
-    let futsal = await Futsal.findById(req.params.id);
+    // Fetch the futsal by ID and populate createdBy with name, email, and phoneNumber
+    let futsal = await Futsal.findById(req.params.id)
+      .populate("createdBy", "name Email phoneNumber"); // Populate owner details
+
     if (!futsal) {
       return res.status(404).json({ message: "Futsal not found" });
     }
@@ -201,9 +117,6 @@ const getSingleFutsal = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
-// Store a New Futsal with Multiple Images
 
 const storeFutsal = async (req, res, next) => {
   try {

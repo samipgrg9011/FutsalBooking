@@ -39,6 +39,11 @@ const paymentSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  futsalArena: {
+    type: ObjectId,
+    ref: "Futsal",
+    required: true, 
+  },
   // Temporary fields for booking details
   // futsalArena: {
   //   type: ObjectId,

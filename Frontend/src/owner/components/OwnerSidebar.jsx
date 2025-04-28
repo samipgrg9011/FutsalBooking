@@ -13,9 +13,12 @@ import { useDispatch } from "react-redux";
 
 const OwnerSidebar = () => {
   const dispatch = useDispatch();
+  
 
   const handleLogout = () => {
     dispatch(logout());
+    localStorage.removeItem("token")
+    navigate("/login");
   };
 
   return (
@@ -25,7 +28,7 @@ const OwnerSidebar = () => {
         <ul>
           <li className="mb-3">
             <Link
-              to="/"
+              to="/owner"
               className="flex items-center gap-3 p-3 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white transition"
             >
               <FaTachometerAlt className="text-gray-400" /> Dashboard

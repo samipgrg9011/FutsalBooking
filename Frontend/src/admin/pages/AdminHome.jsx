@@ -2,7 +2,6 @@ import React from 'react'
 import AdminSidebar from '../components/AdminSidebar'
 import { Route, Routes } from 'react-router-dom';
 import AdminDashboard from '../components/AdminDashboard';
-import AdminFutsal from './AdminFutsal';
 // import ManageOwner from './ManageOwner';
 import ManageFutsal from './ManageFutsal';
 import Reviews from './Reviews';
@@ -22,7 +21,6 @@ const AdminHome = () => {
             <div className="flex-1">
                 <Routes>
                     <Route path="/" element={<AdminDashboard/>} />
-                    <Route path="/product" element={<AdminFutsal />} />
                     <Route path="/arenas" element={<ManageFutsal />} />
                     <Route path="/users" element={<AllUsersForAdmin/>} />
                     <Route path="/bookings" element={<Bookings />} />

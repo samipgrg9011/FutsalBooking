@@ -72,14 +72,14 @@ const AdminSidebar = () => {
               <FaStar className="text-gray-400" /> Reviews
             </Link>
           </li>
-          <li className="mb-3">
+          {/* <li className="mb-3">
             <Link
               to="/admin/reports"
               className="flex items-center gap-3 p-3 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white transition"
             >
               <FaChartBar className="text-gray-400" /> Reports
             </Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
       <button

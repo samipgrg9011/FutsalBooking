@@ -313,14 +313,14 @@ const FutsalDetail = () => {
                 <FaPhone className="text-green-500 mt-1 flex-shrink-0" />
                 <div>
                   <p className="text-gray-700 font-medium text-sm">Phone</p>
-                  <p className="text-gray-600 text-sm">{futsal.phone || "+977 123-456-7890"}</p>
+                  <p className="text-gray-600 text-sm">{futsal.createdBy.phoneNumber || "+977 123-456-7890"}</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3 mb-3 w-full">
                 <FaEnvelope className="text-red-500 mt-1 flex-shrink-0" />
                 <div>
                   <p className="text-gray-700 font-medium text-sm">Email</p>
-                  <p className="text-gray-600 text-sm">{futsal.email || "contact@futsal.com"}</p>
+                  <p className="text-gray-600 text-sm">{futsal.createdBy.Email || "contact@futsal.com"}</p>
                 </div>
               </div>
               <div className="mb-4 w-full">

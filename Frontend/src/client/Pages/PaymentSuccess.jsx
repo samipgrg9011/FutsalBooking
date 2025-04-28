@@ -133,7 +133,7 @@ const PaymentSuccess = () => {
       } catch (err) {
         console.error("Payment verification error:", err.response?.data || err.message);
         setPaymentStatus("failure");
-        setError("Payment verification failed. Please try again.");
+        setError("");
       } finally {
         setLoading(false);
       }
@@ -153,14 +153,14 @@ const PaymentSuccess = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-4">
-        {paymentStatus === "success" ? "Payment Successful!" : "Payment Failed!"}
+        {paymentStatus === "success" ? "Payment Successful!" : "Payment Cancelled!"}
       </h1>
       {paymentStatus === "success" && (
         <p className="text-lg mb-8">Your booking is confirmed. Thank you!</p>
       )}
       {paymentStatus === "failure" && (
         <p className="text-lg mb-8">
-          There was an issue with your payment. Please try again.
+          Your payment has been cancelled.
         </p>
       )}
       {error && <p className="text-red-500 mb-8">{error}</p>}

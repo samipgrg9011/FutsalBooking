@@ -10,6 +10,7 @@ const getUserProfile = async (req, res) => {
       if (!user) {
         return res.status(404).send({ msg: "User not found" });
       }
+      
       res.status(200).send({ user });
     } catch (error) {
       console.error(error);

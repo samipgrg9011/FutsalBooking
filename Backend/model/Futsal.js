@@ -36,17 +36,7 @@ const FutsalSchema = new Schema({
     required: true,
   },
 
-  // availability: {
-  //   type: [
-  //     {
-  //       date: { type: Date, required: true },
-  //       startTime: { type: String, required: true },
-  //       endTime: { type: String, required: true },
-  //       isBooked: { type: Boolean, default: false },
-  //     },
-  //   ],
-  //   default: [],
-  // },
+
 });
 
 const Futsal = mongoose.model("Futsal", FutsalSchema);

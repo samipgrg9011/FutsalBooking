@@ -6,38 +6,89 @@ var jwt = require("jsonwebtoken");
 
 
 
+// const signUpSchema = Joi.object({
+//   FirstName: Joi.string().alphanum().min(3).max(30).required(),
+//   LastName: Joi.string().alphanum().min(3).max(30).required(),
+//   password: Joi.string().alphanum().min(8).max(30).required(),
+//   Email: Joi.string().email().required(),
+//   // phoneNumber: Joi.string().pattern(/^[0-9]{9,10}$/).required(),
+//   phoneNumber: Joi.string().required(),
+
+//   address: Joi.string().min(5).max(100).optional(),
+// });
+
+// const signup = async (req, res, next) => {
+//   try {
+//     const { error } = signUpSchema.validate(req.body, {
+//       abortEarly: false,
+//       stripUnknown: true,
+//     });
+//     if (error) {
+//       let errors = error.details.map((el) => {
+//         return {
+//           msg: el.message,
+//           params: el.context.key,
+//         };
+//       });
+//       return res.status(400).send({ errors });
+//     }
+
+
+//     let hashedPassword = await bcrypt.hash(req.body.password, 10);
+//     console.log(hashedPassword);
+
+//     let user = await User.create({ ...req.body, password: hashedPassword });
+//     let userObj = user.toObject();
+//     delete userObj.password;
+
+//     console.log(userObj);
+//     res.send(userObj);
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// };
 const signUpSchema = Joi.object({
   FirstName: Joi.string().alphanum().min(3).max(30).required(),
   LastName: Joi.string().alphanum().min(3).max(30).required(),
   password: Joi.string().alphanum().min(8).max(30).required(),
   Email: Joi.string().email().required(),
-  // phoneNumber: Joi.string().pattern(/^[0-9]{9,10}$/).required(),
   phoneNumber: Joi.string().required(),
-
   address: Joi.string().min(5).max(100).optional(),
+  role: Joi.string().valid("user", "owner").default("user"), // Accept only 'user' or 'owner'
 });
 
 const signup = async (req, res, next) => {
   try {
-    const { error } = signUpSchema.validate(req.body, {
+    const { error, value } = signUpSchema.validate(req.body, {
       abortEarly: false,
       stripUnknown: true,
     });
+
     if (error) {
-      let errors = error.details.map((el) => {
-        return {
-          msg: el.message,
-          params: el.context.key,
-        };
-      });
+      let errors = error.details.map((el) => ({
+        msg: el.message,
+        params: el.context.key,
+      }));
       return res.status(400).send({ errors });
     }
 
+    // Destructure role separately to sanitize
+    let { role, ...userData } = value;
 
-    let hashedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log(hashedPassword);
+    // Fallback safety check
+    if (!["user", "owner"].includes(role)) {
+      role = "user";
+    }
 
-    let user = await User.create({ ...req.body, password: hashedPassword });
+    let hashedPassword = await bcrypt.hash(userData.password, 10);
+
+    let user = await User.create({
+      ...userData,
+      role,
+      password: hashedPassword,
+    });
+
     let userObj = user.toObject();
     delete userObj.password;
 
@@ -48,7 +99,6 @@ const signup = async (req, res, next) => {
     next(error);
   }
 };
-
 const loginSchema = Joi.object({
   Email: Joi.string().email().required(),
   password: Joi.string().alphanum().min(8).max(30).required(),

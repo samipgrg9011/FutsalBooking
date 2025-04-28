@@ -10,18 +10,19 @@ const authRoutes = require("./routes/auth.js");
 const bookingRoutes = require("./routes/booking.js");
 
 const futsalRoutes = require("./routes/futsal.js")
-const loggedUserRoutes = require("./routes/AdminPanel.js")
+const AllUserRoutes = require("./routes/AdminPanel.js")
 
 const PaymentRoutes = require("./routes/PaymentRoutes.js")
 
 const profilesRoutes = require("./routes/profiles.js")
 
-const ReviewRoutes = require("./routes/review.js")
+const reviewRoutes = require("./routes/review.js")
 
 
 
 const fileUpload = require("express-fileupload")
 const cors = require("cors");
+const { startBookingStatusUpdater } = require('./controller/booking.js');
 
 
 app.use(express.json());
@@ -33,12 +34,12 @@ app.use(express.static('uploads'))//http://localhost:8000/mm.jpg yo dekhina ko l
 app.use(authRoutes);
 app.use(futsalRoutes);
 app.use(bookingRoutes)
-app.use(loggedUserRoutes);
+app.use(AllUserRoutes);
 app.use(PaymentRoutes) 
 app.use(profilesRoutes);
-app.use(ReviewRoutes);
+app.use(reviewRoutes);
 
-
+startBookingStatusUpdater();
 
 app.use((req, res) => {
   res.status(404).send({ msg: "Resource not found" });

@@ -9,6 +9,8 @@ const checkAuthorization = (req, res, next) => {
       var decoded = jwt.verify(token, "shhhhh");  
       req.user = decoded;
       console.log(req.user);
+
+      console.log("User decoded:", req.user); 
   
       isloggedIn = true;
     } catch {}
